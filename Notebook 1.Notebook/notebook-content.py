@@ -47,8 +47,9 @@ RANDOM_SEED = 42
 # ============================
 # 1) Parameters (scale here)
 # ============================
-N_STUDENTS = 1_000_000  # 1M s
-WEEKS = 12     # For 3 Months in the program 
+# NOTE: Start with smaller numbers to validate, then scale up.
+N_STUDENTS = 1_000_000   # ← scale up as needed (e.g., 3_000_000)
+WEEKS = 12               # 3 months ≈ 12 weeks
 SUBJECTS = ["introduction to python", "Execl", "ML", "UiUx Framework","Introduction to Java"]
 
 REGIONS = [
