@@ -47,10 +47,10 @@ RANDOM_SEED = 42
 # ============================
 # 1) Parameters (scale here)
 # ============================
-# NOTE: Start with smaller numbers to validate, then scale up.
-N_STUDENTS = 1_000_000   # ← scale up as needed (e.g., 3_000_000)
-WEEKS = 12               # 3 months ≈ 12 weeks
-SUBJECTS = ["Mathematics", "English", "Science", "Civic Education"]
+N_STUDENTS = 1_000_000  # 1M s
+WEEKS = 12     # For 3 Months in the program 
+SUBJECTS = ["introduction to python", "Execl", "ML", "UiUx Framework","Introduction to Java"]
+
 REGIONS = [
     "Lagos", "Abuja", "Rivers", "Kano", "Oyo", "Kaduna", "Anambra", "Enugu",
     "Ogun", "Edo", "Delta", "Akwa Ibom", "Kwara", "Osun", "Imo", "Borno"
@@ -422,6 +422,112 @@ print("Row counts:", counts)
 
 # Example (append next batch):
 # next_activity_batch.write.mode("append").partitionBy("week").saveAsTable(f"{BRONZE_SCHEMA}.student_activity_logs")
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# ============================
+# Update Subjects to EdTech Context
+# ============================
+
+# Define new subject list
+new_subjects = [
+    "Introduction to Python",
+    "Excel",
+    "ML",
+    "UI/UX Framework",
+    "Introduction to Java"
+]
+
+# Load Bronze table
+academic_df = spark.table(f"{BRONZE_SCHEMA}.student_academic_performance")
+
+# Build Spark SQL expression for subject array
+subjects_sql_array = ",".join([f"'{s}'" for s in new_subjects])
+
+# Replace subjects with random choice from new_subjects
+updated_academic_df = academic_df.withColumn(
+    "subject",
+    F.expr(f"element_at(array({subjects_sql_array}), int(rand()*{len(new_subjects)}+1))")
+)
+
+# Overwrite Bronze table with updated subjects
+(
+    updated_academic_df.write
+    .mode("overwrite")
+    .option("mergeSchema", "true")
+    .saveAsTable(f"{BRONZE_SCHEMA}.student_academic_performance")
+)
+
+print("✅ Subjects updated successfully to EdTech courses!")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df = spark.sql("""
+    SELECT *
+    FROM Altschool_Hackathon_Lakehouse.bronze.student_academic_performance
+    WHERE subject != 'Excel'
+    LIMIT 1000
+""")
+
+display(df)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df = spark.sql("""
+            SELECT Count(student_id)
+            FROM Altschool_Hackathon_Lakehouse.bronze.student_academic_performance""")
+display(df)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
 
 
 # METADATA ********************
