@@ -50,7 +50,7 @@ RANDOM_SEED = 42
 # NOTE: Start with smaller numbers to validate, then scale up.
 N_STUDENTS = 1_000_000   # ← scale up as needed (e.g., 3_000_000)
 WEEKS = 12               # 3 months ≈ 12 weeks
-SUBJECTS = ["Mathematics", "English", "Science", "Civic Education"]
+SUBJECTS = ["introduction to python", "Execl", "ML", "UiUx Framework","Introduction to Java"]
 REGIONS = [
     "Lagos", "Abuja", "Rivers", "Kano", "Oyo", "Kaduna", "Anambra", "Enugu",
     "Ogun", "Edo", "Delta", "Akwa Ibom", "Kwara", "Osun", "Imo", "Borno"
